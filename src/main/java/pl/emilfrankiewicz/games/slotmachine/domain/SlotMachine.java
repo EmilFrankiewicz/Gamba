@@ -6,7 +6,8 @@ import java.util.Objects;
 class SlotMachine {
 
     EvaluationResult evaluate(List<Symbol> symbols) {
-        return new EvaluationResult(payoutChecker(symbols));
+        int payout = payoutChecker(symbols);
+        return new EvaluationResult(payout, WinCategory.fromPayout(payout));
     }
 
     private int payoutChecker(List<Symbol> symbols) {
