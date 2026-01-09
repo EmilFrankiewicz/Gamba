@@ -28,8 +28,17 @@ class SlotMachine {
     }
 
     private void hasExactlyThreeSymbols(List<Symbol> symbols) {
-        if (symbols.size() != 3 || symbols.stream().anyMatch(Objects::isNull)) {
-            throw new IllegalArgumentException();
+        if (symbols == null) {
+            throw new IllegalArgumentException("Symbols list cannot be null");
+        }
+        if (symbols.isEmpty()) {
+            throw new IllegalArgumentException("Symbols list cannot be empty");
+        }
+        if (symbols.size() != 3) {
+            throw new IllegalArgumentException("Exactly three symbols are required");
+        }
+        if (symbols.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("Symbols list cannot contain null values");
         }
     }
 
