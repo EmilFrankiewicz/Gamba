@@ -1,6 +1,6 @@
 package pl.emilfrankiewicz.games.slotmachine.domain;
 
-enum WinCategory {
+public enum WinCategory {
 
     VERY_HIGH,
     HIGH,

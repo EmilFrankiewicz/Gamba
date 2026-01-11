@@ -3,9 +3,9 @@ package pl.emilfrankiewicz.games.slotmachine.domain;
 import java.util.List;
 import java.util.Objects;
 
-class SlotMachine {
+public class SlotMachine {
 
-    EvaluationResult evaluate(List<Symbol> symbols) {
+   public EvaluationResult evaluate(List<Symbol> symbols) {
         int payout = payoutChecker(symbols);
         return new EvaluationResult(payout, WinCategory.fromPayout(payout));
     }
