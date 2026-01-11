@@ -1,5 +1,5 @@
 package pl.emilfrankiewicz.games.slotmachine.domain;
 
-enum Symbol {
+public enum Symbol {
     SEVEN, BAR, CHERRY, LEMON, PLUM;
 }
