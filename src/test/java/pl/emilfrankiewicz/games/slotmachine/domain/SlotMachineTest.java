@@ -1,21 +1,21 @@
 package pl.emilfrankiewicz.games.slotmachine.domain;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static pl.emilfrankiewicz.games.slotmachine.domain.Symbol.*;
+
 
 public class SlotMachineTest {
 
     SlotMachine slotMachine = new SlotMachine();
 
     @Test
-    public void shouldReturnVeryHighWinWhenThreeSevens() {
+    void shouldReturnVeryHighWinWhenThreeSevens() {
         // given
         List<Symbol> symbols = List.of(SEVEN, SEVEN, SEVEN);
 
@@ -23,12 +23,12 @@ public class SlotMachineTest {
         var result = slotMachine.evaluate(symbols);
 
         // then
-        assertEquals(100, result.payout());
-        assertEquals(WinCategory.VERY_HIGH, result.winCategory());
+        assertThat(result.payout()).isEqualTo(100);
+        assertThat(WinCategory.VERY_HIGH).isEqualTo(result.winCategory());
     }
 
     @Test
-    public void shouldReturnHighWinWhenThreeBars() {
+    void shouldReturnHighWinWhenThreeBars() {
         // given
         List<Symbol> symbols = List.of(BAR, BAR, BAR);
 
@@ -36,12 +36,12 @@ public class SlotMachineTest {
         var result = slotMachine.evaluate(symbols);
 
         // then
-        assertEquals(50, result.payout());
-        assertEquals(WinCategory.HIGH, result.winCategory());
+        assertThat(result.payout()).isEqualTo(50);
+        assertThat(WinCategory.HIGH).isEqualTo(result.winCategory());
     }
 
     @Test
-    public void shouldReturnMediumWinWhenThreeCherries() {
+    void shouldReturnMediumWinWhenThreeCherries() {
         // given
         List<Symbol> symbols = List.of(CHERRY, CHERRY, CHERRY);
 
@@ -49,12 +49,12 @@ public class SlotMachineTest {
         var result = slotMachine.evaluate(symbols);
 
         // then
-        assertEquals(20, result.payout());
-        assertEquals(WinCategory.MEDIUM, result.winCategory());
+        assertThat(result.payout()).isEqualTo(20);
+        assertThat(WinCategory.MEDIUM).isEqualTo(result.winCategory());
     }
 
     @Test
-    public void shouldReturnLowWinWhenThreeLemons() {
+    void shouldReturnLowWinWhenThreeLemons() {
         // given
         List<Symbol> symbols = List.of(LEMON, LEMON, LEMON);
 
@@ -62,12 +62,12 @@ public class SlotMachineTest {
         var result = slotMachine.evaluate(symbols);
 
         // then
-        assertEquals(10, result.payout());
-        assertEquals(WinCategory.LOW, result.winCategory());
+        assertThat(result.payout()).isEqualTo(10);
+        assertThat(WinCategory.LOW).isEqualTo(result.winCategory());
     }
 
     @Test
-    public void shouldReturnVeryLowWinWhenThreePlums() {
+    void shouldReturnVeryLowWinWhenThreePlums() {
         // given
         List<Symbol> symbols = List.of(PLUM, PLUM, PLUM);
 
@@ -75,12 +75,12 @@ public class SlotMachineTest {
         var result = slotMachine.evaluate(symbols);
 
         // then
-        assertEquals(5, result.payout());
-        assertEquals(WinCategory.VERY_LOW, result.winCategory());
+        assertThat(result.payout()).isEqualTo(5);
+        assertThat(WinCategory.VERY_LOW).isEqualTo(result.winCategory());
     }
 
     @Test
-    public void shouldLoseWhenNotAllSymbolsSame() {
+    void shouldLoseWhenNotAllSymbolsSame() {
         // given
         List<Symbol> symbols = List.of(PLUM, SEVEN, SEVEN);
 
@@ -88,12 +88,12 @@ public class SlotMachineTest {
         var result = slotMachine.evaluate(symbols);
 
         // then
-        assertEquals(0, result.payout());
-        assertEquals(WinCategory.LOSS, result.winCategory());
+        assertThat(result.payout()).isEqualTo(0);
+        assertThat(WinCategory.LOSS).isEqualTo(result.winCategory());
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionWhenSymbolsListIsNull() {
+    void shouldThrowIllegalArgumentExceptionWhenSymbolsListIsNull() {
         // given
         List<Symbol> symbols = null;
 
@@ -101,13 +101,12 @@ public class SlotMachineTest {
         Throwable thrown = catchThrowable(() -> slotMachine.evaluate(symbols));
 
         // then
-        AssertionsForClassTypes.assertThat(thrown)
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Symbols list cannot be null");
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionWhenSymbolsListIsEmpty() {
+    void shouldThrowIllegalArgumentExceptionWhenSymbolsListIsEmpty() {
         // given
         List<Symbol> symbols = List.of();
 
@@ -115,13 +114,12 @@ public class SlotMachineTest {
         Throwable thrown = catchThrowable(() -> slotMachine.evaluate(symbols));
 
         // then
-        AssertionsForClassTypes.assertThat(thrown)
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Symbols list cannot be empty");
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionWhenSymbolsListIsNotExactlyThree() {
+    void shouldThrowIllegalArgumentExceptionWhenSymbolsListIsNotExactlyThree() {
         // given
         List<Symbol> symbols = List.of(SEVEN, SEVEN);
 
@@ -129,13 +127,12 @@ public class SlotMachineTest {
         Throwable thrown = catchThrowable(() -> slotMachine.evaluate(symbols));
 
         // then
-        AssertionsForClassTypes.assertThat(thrown)
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Exactly three symbols are required");
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionWhenSymbolsListContainsNull() {
+    void shouldThrowIllegalArgumentExceptionWhenSymbolsListContainsNull() {
         // given
         List<Symbol> symbols = Arrays.asList(SEVEN, null, SEVEN);
 
@@ -143,8 +140,7 @@ public class SlotMachineTest {
         Throwable thrown = catchThrowable(() -> slotMachine.evaluate(symbols));
 
         //then
-        AssertionsForClassTypes.assertThat(thrown)
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Symbols list cannot contain null values");
     }
 
