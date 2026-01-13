@@ -1,10 +1,9 @@
 package pl.emilfrankiewicz.games.slotmachine.application;
 
-import pl.emilfrankiewicz.games.slotmachine.domain.EvaluationResult;
-import pl.emilfrankiewicz.games.slotmachine.domain.SlotMachine;
-import pl.emilfrankiewicz.games.slotmachine.domain.Symbol;
+import pl.emilfrankiewicz.games.slotmachine.domain.*;
 import pl.emilfrankiewicz.games.slotmachine.infrastructure.SymbolGenerator;
 
+import java.time.Instant;
 import java.util.List;
 
 public class SlotMachineService {
@@ -17,8 +16,17 @@ public class SlotMachineService {
         this.symbolGenerator = symbolGenerator;
     }
 
-    public EvaluationResult spin() {
+    public SpinOutcome spin() {
         List<Symbol> symbols = symbolGenerator.generateSymbols();
-        return slotMachine.evaluate(symbols);
+        EvaluationResult evaluation = slotMachine.evaluate(symbols);
+        return new SpinOutcome(symbols, evaluation);
     }
+
+    public GameResult gameResult() {
+        SpinOutcome outcome = spin();
+        Instant occurredAt = Instant.now();
+        boolean win = outcome.evaluation().isWin();
+        return new GameResult(win, outcome.symbols(), outcome.evaluation(), occurredAt);
+    }
+
 }
