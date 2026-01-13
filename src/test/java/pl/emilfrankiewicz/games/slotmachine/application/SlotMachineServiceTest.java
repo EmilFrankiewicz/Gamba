@@ -1,10 +1,7 @@
 package pl.emilfrankiewicz.games.slotmachine.application;
 
 import org.junit.jupiter.api.Test;
-import pl.emilfrankiewicz.games.slotmachine.domain.SlotMachine;
-import pl.emilfrankiewicz.games.slotmachine.domain.SpinOutcome;
-import pl.emilfrankiewicz.games.slotmachine.domain.Symbol;
-import pl.emilfrankiewicz.games.slotmachine.domain.WinCategory;
+import pl.emilfrankiewicz.games.slotmachine.domain.*;
 import pl.emilfrankiewicz.games.slotmachine.infrastructure.SymbolGenerator;
 
 import java.util.List;
@@ -26,5 +23,18 @@ class SlotMachineServiceTest {
         assertThat(outcome.symbols()).isEqualTo(List.of(Symbol.SEVEN, Symbol.SEVEN, Symbol.SEVEN));
         assertThat(outcome.evaluation().payout()).isEqualTo(100);
         assertThat(outcome.evaluation().winCategory()).isEqualTo(WinCategory.VERY_HIGH);
+    }
+
+    @Test
+    void shouldCreateGameResultBasedOnSpinOutcome() {
+        // when
+        GameResult result = slotMachineService.gameResult();
+
+        //then
+        assertThat(result.win()).isTrue();
+        assertThat(result.symbols()).isEqualTo(List.of(Symbol.SEVEN, Symbol.SEVEN, Symbol.SEVEN));
+        assertThat(result.evaluation().payout()).isEqualTo(100);
+        assertThat(result.evaluation().winCategory()).isEqualTo(WinCategory.VERY_HIGH);
+        assertThat(result.occurredAt()).isNotNull();
     }
 }
