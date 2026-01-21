@@ -13,4 +13,12 @@ public class Player {
     public Balance getBalance() {
         return balance;
     }
+
+    public Player increase(int amount) {
+        return new Player(this.id, balance.increase(amount));
+    }
+
+    public Player decrease(int amount) {
+        return new Player(this.id, balance.decrease(amount));
+    }
 }
