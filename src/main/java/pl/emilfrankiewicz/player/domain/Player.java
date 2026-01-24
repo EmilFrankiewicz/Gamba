@@ -21,4 +21,8 @@ public class Player {
     public Player decrease(int amount) {
         return new Player(this.id, balance.decrease(amount));
     }
+
+    public PlayerId getId() {
+        return id;
+    }
 }

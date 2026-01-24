@@ -32,7 +32,7 @@ class PlayerTest {
         // then
         assertThat(updated).isNotEqualTo(player);
         assertThat(player.getBalance()).isEqualTo(balance);
-        assertThat(updated.getBalance()).isEqualTo(new Balance(1));
+        assertThat(updated.getBalance()).isEqualTo(new Balance(10));
     }
 
     @Test

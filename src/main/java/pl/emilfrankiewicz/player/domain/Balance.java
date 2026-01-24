@@ -45,7 +45,5 @@ public class Balance {
         }
         return false;
     }
-
-
 }
 
