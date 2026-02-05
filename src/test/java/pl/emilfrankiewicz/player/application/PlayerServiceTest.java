@@ -15,7 +15,7 @@ class PlayerServiceTest {
     @Test
     void shouldIncreasePlayerBalance() {
         // given
-        PlayerRepository mockDB = new InMemmoryPlayerRepository();
+        PlayerRepository mockDB = new InMemoryPlayerRepository();
         PlayerService playerService = new PlayerService(mockDB);
 
         PlayerId id = new PlayerId("1");
@@ -36,7 +36,7 @@ class PlayerServiceTest {
     @Test
     void shouldDecreasePlayerBalance() {
         // given
-        PlayerRepository mockDB = new InMemmoryPlayerRepository();
+        PlayerRepository mockDB = new InMemoryPlayerRepository();
         PlayerService playerService = new PlayerService(mockDB);
 
         PlayerId id = new PlayerId("1");
@@ -57,7 +57,7 @@ class PlayerServiceTest {
     @Test
     void shouldNotAllowBalanceBelowZero() {
         // given
-        PlayerRepository mockDB = new InMemmoryPlayerRepository();
+        PlayerRepository mockDB = new InMemoryPlayerRepository();
         PlayerService playerService = new PlayerService(mockDB);
 
         PlayerId id = new PlayerId("1");
@@ -75,7 +75,7 @@ class PlayerServiceTest {
     @Test
     void shouldNotAllowIncreaseWhenPlayerNotFound() {
         // given
-        PlayerRepository mockDB = new InMemmoryPlayerRepository();
+        PlayerRepository mockDB = new InMemoryPlayerRepository();
         PlayerService playerService = new PlayerService(mockDB);
 
         PlayerId existingId = new PlayerId("1");
@@ -99,7 +99,7 @@ class PlayerServiceTest {
     @Test
     void shouldNotAllowDecreaseWhenPlayerNotFound() {
         // given
-        PlayerRepository mockDB = new InMemmoryPlayerRepository();
+        PlayerRepository mockDB = new InMemoryPlayerRepository();
         PlayerService playerService = new PlayerService(mockDB);
 
         PlayerId existingId = new PlayerId("1");

@@ -7,7 +7,7 @@ import pl.emilfrankiewicz.player.infrastructure.PlayerRepository;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemmoryPlayerRepository implements PlayerRepository {
+public class InMemoryPlayerRepository implements PlayerRepository {
 
     private final Map<PlayerId, Player> storage = new HashMap<>();
 
