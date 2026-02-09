@@ -16,13 +16,13 @@ public class SlotMachineService {
         this.symbolGenerator = symbolGenerator;
     }
 
-    public SpinOutcome spin() {
+    SpinOutcome spin() {
         List<Symbol> symbols = symbolGenerator.generateSymbols();
         EvaluationResult evaluation = slotMachine.evaluate(symbols);
         return new SpinOutcome(symbols, evaluation);
     }
 
-    public GameResult gameResult() {
+    GameResult gameResult() {
         SpinOutcome outcome = spin();
         Instant occurredAt = Instant.now();
         boolean win = outcome.evaluation().isWin();
