@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 import static pl.emilfrankiewicz.games.slotmachine.domain.Symbol.BAR;
 import static pl.emilfrankiewicz.games.slotmachine.domain.Symbol.SEVEN;
@@ -63,4 +64,51 @@ class SlotMachineApplicationServiceTest {
         verify(slotMachineService).gameResult();
         verify(gameApplicationService).applyResult(id, gameResult);
     }
+
+    @Test
+    void shouldThrowExceptionWhenGameResultFails() {
+        // given
+        SlotMachineService slotMachineService = mock(SlotMachineService.class);
+        GameApplicationService gameApplicationService = mock(GameApplicationService.class);
+        SlotMachineApplicationService slotMachineApplicationService = new SlotMachineApplicationService(slotMachineService, gameApplicationService);
+
+        when(slotMachineService.gameResult()).thenThrow(new RuntimeException("Failed to generate game result"));
+
+        PlayerId id = new PlayerId("1");
+
+        // when
+        Throwable thrown = catchThrowable(() -> slotMachineApplicationService.playSlotMachine(id));
+
+        // then
+        assertThat(thrown).isInstanceOf(RuntimeException.class).hasMessage("Failed to generate game result");
+        verify(slotMachineService).gameResult();
+        verify(gameApplicationService, never()).applyResult(any(), any());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenApplyResultFails() {
+        // given
+        SlotMachineService slotMachineService = mock(SlotMachineService.class);
+        GameApplicationService gameApplicationService = mock(GameApplicationService.class);
+        SlotMachineApplicationService slotMachineApplicationService = new SlotMachineApplicationService(slotMachineService, gameApplicationService);
+
+        Instant now = Instant.parse("2024-01-01T00:00:00Z");
+        GameResult gameResult = new GameResult(false, List.of(SEVEN, SEVEN, BAR), new EvaluationResult(0, LOSS), now);
+
+        PlayerId id = new PlayerId("1");
+
+        when(slotMachineService.gameResult()).thenReturn(gameResult);
+
+        doThrow(new RuntimeException("Failed to generate game result")).when(gameApplicationService).applyResult(id, gameResult);
+
+        // when
+        Throwable thrown = catchThrowable(() -> slotMachineApplicationService.playSlotMachine(id));
+
+        // then
+        assertThat(thrown).isInstanceOf(RuntimeException.class).hasMessage("Failed to generate game result");
+
+        verify(slotMachineService).gameResult();
+        verify(gameApplicationService).applyResult(id, gameResult);
+    }
+
 }
