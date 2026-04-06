@@ -14,15 +14,25 @@ public class Player {
         return balance;
     }
 
-    public Player increase(int amount) {
-        return new Player(this.id, balance.increase(amount));
-    }
-
-    public Player decrease(int amount) {
-        return new Player(this.id, balance.decrease(amount));
-    }
-
     public PlayerId getId() {
         return id;
     }
+
+    public Player payForGame(int amount) {
+        return decrease(amount);
+    }
+
+    public Player win(int amount) {
+        return increase(amount);
+    }
+
+    private Player increase(int amount) {
+        return new Player(this.id, balance.increase(amount));
+    }
+
+    private Player decrease(int amount) {
+        return new Player(this.id, balance.decrease(amount));
+    }
+
+
 }

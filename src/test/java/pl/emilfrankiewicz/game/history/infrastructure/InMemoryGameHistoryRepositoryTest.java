@@ -3,7 +3,6 @@ package pl.emilfrankiewicz.game.history.infrastructure;
 import org.junit.jupiter.api.Test;
 import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.game.history.domain.GameHistoryEntry;
-import pl.emilfrankiewicz.game.history.domain.GameHistoryId;
 import pl.emilfrankiewicz.player.domain.PlayerId;
 
 import java.time.Instant;
@@ -19,7 +18,6 @@ class InMemoryGameHistoryRepositoryTest {
     void shouldSaveAndRetrieveEntries() {
         // given
         GameHistoryEntry entry = new GameHistoryEntry(
-                new GameHistoryId("1"),
                 new PlayerId("1"),
                 Instant.parse("2024-01-01T00:00:00Z"),
                 GameType.SLOT,
@@ -32,16 +30,20 @@ class InMemoryGameHistoryRepositoryTest {
         List<GameHistoryEntry> result = repository.findByPlayerId(new PlayerId("1"));
 
         // then
-        assertThat(result).containsExactly(entry);
+        assertThat(result).hasSize(1);
+        GameHistoryEntry saved = result.get(0);
+
+        assertThat(saved.getId()).isNotNull();
     }
+
 
     @Test
     void shouldFindEntriesByPlayerId() {
         // given
-        GameHistoryEntry entry1 = entry("1", "1", "2024-01-01T00:00:00Z");
-        GameHistoryEntry entry2 = entry("2", "2", "2024-01-01T00:00:00Z");
-        GameHistoryEntry entry3 = entry("3", "3", "2024-01-01T00:00:00Z");
-        GameHistoryEntry entry4 = entry("4", "1", "2024-01-01T00:00:00Z");
+        GameHistoryEntry entry1 = entry("1", "2024-01-01T00:00:00Z");
+        GameHistoryEntry entry2 = entry("2", "2024-01-01T00:00:00Z");
+        GameHistoryEntry entry3 = entry("3", "2024-01-01T00:00:00Z");
+        GameHistoryEntry entry4 = entry("1", "2024-01-01T00:00:00Z");
 
         repository.save(entry1);
         repository.save(entry2);
@@ -52,7 +54,10 @@ class InMemoryGameHistoryRepositoryTest {
         List<GameHistoryEntry> result = repository.findByPlayerId(new PlayerId("1"));
 
         // then
-        assertThat(result).containsExactly(entry1, entry4);
+        assertThat(result)
+                .extracting(GameHistoryEntry::getPlayerId)
+                .containsExactly(new PlayerId("1"), new PlayerId("1"));
+
     }
 
     @Test
@@ -64,7 +69,13 @@ class InMemoryGameHistoryRepositoryTest {
         assertThat(result).isEmpty();
     }
 
-    private GameHistoryEntry entry(String id, String playerId, String timestamp) {
-        return new GameHistoryEntry(new GameHistoryId(id), new PlayerId(playerId), Instant.parse(timestamp), GameType.SLOT, "symbols=[SEVEN,BAR,SEVEN],category=HIGH", 25, 50, 100, 125);
+    private GameHistoryEntry entry(String playerId, String timestamp) {
+        return new GameHistoryEntry(
+                new PlayerId(playerId),
+                Instant.parse(timestamp),
+                GameType.SLOT,
+                "symbols=[SEVEN,BAR,SEVEN],category=HIGH",
+                25, 50, 100, 125
+        );
     }
 }

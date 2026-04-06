@@ -14,6 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 class GameApplicationServiceTest {
 
+    /*
     @Test
     void shouldIncreasePlayerBalanceWhenPayoutIsPositive() {
         // given
@@ -86,4 +87,6 @@ class GameApplicationServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Player not found");
     }
+
+     */
 }

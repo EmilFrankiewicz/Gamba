@@ -15,6 +15,19 @@ public enum Bet {
     public int multiplier() {
         return multiplier;
     }
-}
 
+    public static Bet fromString(String betToParse) {
+        if (betToParse == null) {
+            throw new InvalidBetException("Bet cannot be null");
+        }
+
+        String normalized = betToParse.trim().toUpperCase();
+
+        try {
+            return Bet.valueOf(normalized);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidBetException("Invalid bet value: " + betToParse);
+        }
+    }
+}
 

@@ -9,7 +9,7 @@ public class GameHistoryEntry {
 
     private final GameHistoryId id;
     private final PlayerId playerId;
-    private final Instant timestamp;
+    private final Instant occurredAt;
     private final GameType gameType;
     private final String details;
     private final int cost;
@@ -17,16 +17,36 @@ public class GameHistoryEntry {
     private final int balanceBefore;
     private final int balanceAfter;
 
-    public GameHistoryEntry(GameHistoryId id, PlayerId playerId, Instant timestamp, GameType gameType, String details, int cost, int payout, int balanceBefore, int balanceAfter) {
+    public GameHistoryEntry(GameHistoryId id, PlayerId playerId, Instant occurredAt, GameType gameType, String details, int cost, int payout, int balanceBefore, int balanceAfter) {
         this.id = id;
         this.playerId = playerId;
-        this.timestamp = timestamp;
+        this.occurredAt = occurredAt;
         this.gameType = gameType;
         this.details = details;
         this.cost = cost;
         this.payout = payout;
         this.balanceBefore = balanceBefore;
         this.balanceAfter = balanceAfter;
+    }
+
+    public GameHistoryEntry(PlayerId playerId, Instant occurredAt, GameType gameType, String details, int cost, int payout, int balanceBefore, int balanceAfter) {
+        this.id = null;
+        this.playerId = playerId;
+        this.occurredAt = occurredAt;
+        this.gameType = gameType;
+        this.details = details;
+        this.cost = cost;
+        this.payout = payout;
+        this.balanceBefore = balanceBefore;
+        this.balanceAfter = balanceAfter;
+    }
+
+    public GameHistoryEntry withId(GameHistoryId id) {
+        return new GameHistoryEntry(id, this.playerId, this.occurredAt, this.gameType, this.details, this.cost, this.payout, this.balanceBefore, this.balanceAfter);
+    }
+
+    public GameHistoryId id() {
+        return id;
     }
 
     public GameHistoryId getId() {
@@ -37,8 +57,8 @@ public class GameHistoryEntry {
         return playerId;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
+    public Instant getOccurredAt() {
+        return occurredAt;
     }
 
     public GameType getGameType() {

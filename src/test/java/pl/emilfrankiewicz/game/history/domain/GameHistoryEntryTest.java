@@ -39,7 +39,7 @@ class GameHistoryEntryTest {
         // then
         assertThat(gameHistoryEntry.getId()).isEqualTo(id);
         assertThat(gameHistoryEntry.getPlayerId()).isEqualTo(playerId);
-        assertThat(gameHistoryEntry.getTimestamp()).isEqualTo(timestamp);
+        assertThat(gameHistoryEntry.getOccurredAt()).isEqualTo(timestamp);
         assertThat(gameHistoryEntry.getGameType()).isEqualTo(gameType);
         assertThat(gameHistoryEntry.getDetails()).isEqualTo(details);
         assertThat(gameHistoryEntry.getCost()).isEqualTo(cost);

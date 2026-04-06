@@ -12,21 +12,29 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Player increaseBalance(PlayerId id, int balance) {
+    public Player win(PlayerId id, int balance) {
         Player player = playerRepository.find(id);
         if (player == null) {
             throw new IllegalArgumentException("Player not found");
         }
-        Player updated = player.increase(balance);
+        Player updated = player.win(balance);
         return playerRepository.save(updated);
     }
 
-    public Player decreaseBalance(PlayerId id, int balance) {
+    public Player payForGame(PlayerId id, int balance) {
         Player player = playerRepository.find(id);
         if (player == null) {
             throw new IllegalArgumentException("Player not found");
         }
-        Player updated = player.decrease(balance);
+        Player updated = player.payForGame(balance);
         return playerRepository.save(updated);
+    }
+
+    public Player find(PlayerId id) {
+        Player player = playerRepository.find(id);
+        if (player == null) {
+            throw new IllegalArgumentException("Player not found");
+        }
+        return player;
     }
 }

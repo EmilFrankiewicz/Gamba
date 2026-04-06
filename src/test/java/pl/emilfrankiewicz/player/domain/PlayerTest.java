@@ -21,13 +21,13 @@ class PlayerTest {
     }
 
     @Test
-    void shouldIncreasePlayerBalance() {
+    void shouldIncreaseBalanceWhenPlayerWins() {
         // given
         Balance balance = new Balance(0);
         Player player = new Player(new PlayerId("1"), balance);
 
         // when
-        Player updated = player.increase(10);
+        Player updated = player.win(10);
 
         // then
         assertThat(updated).isNotEqualTo(player);
@@ -36,13 +36,13 @@ class PlayerTest {
     }
 
     @Test
-    void shouldDecreasePlayerBalance() {
+    void shouldDecreaseBalanceWhenPlayerPay() {
         // given
         Balance balance = new Balance(15);
         Player player = new Player(new PlayerId("1"), balance);
 
         // when
-        Player updated = player.decrease(5);
+        Player updated = player.payForGame(5);
 
         // then
         assertThat(updated).isNotEqualTo(player);
@@ -57,7 +57,7 @@ class PlayerTest {
         Player player = new Player(new PlayerId("1"), balance);
 
         // when
-        Throwable thrown = catchThrowable(() -> player.decrease(10));
+        Throwable thrown = catchThrowable(() -> player.payForGame(10));
 
         // then
         assertThat(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage("Amount cannot be less than 0");

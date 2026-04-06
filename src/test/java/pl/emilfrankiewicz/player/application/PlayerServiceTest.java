@@ -23,7 +23,7 @@ class PlayerServiceTest {
         Player playerBeforeUpdate = mockDB.find(id);
 
         // when
-        Player playerReturnedByService = playerService.increaseBalance(id, 10);
+        Player playerReturnedByService = playerService.win(id, 10);
         Player playerAfterUpdate = mockDB.find(id);
 
         // then
@@ -44,7 +44,7 @@ class PlayerServiceTest {
         Player playerBeforeUpdate = mockDB.find(id);
 
         // when
-        Player playerReturnedByService = playerService.decreaseBalance(id, 10);
+        Player playerReturnedByService = playerService.payForGame(id, 10);
         Player playerAfterUpdate = mockDB.find(id);
 
         // then
@@ -65,7 +65,7 @@ class PlayerServiceTest {
         Player playerBeforeUpdate = mockDB.find(id);
 
         // when
-        Throwable thrown = catchThrowable(() -> playerService.decreaseBalance(id, 15));
+        Throwable thrown = catchThrowable(() -> playerService.payForGame(id, 15));
 
         //then
         assertThat(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage("Amount cannot be less than 0");
@@ -84,7 +84,7 @@ class PlayerServiceTest {
         PlayerId missingId = new PlayerId("2");
 
         // when
-        Throwable thrown = catchThrowable(() -> playerService.increaseBalance(missingId, 5));
+        Throwable thrown = catchThrowable(() -> playerService.win(missingId, 5));
 
         // then
         assertThat(thrown)
@@ -108,7 +108,7 @@ class PlayerServiceTest {
         PlayerId missingId = new PlayerId("3");
 
         // when
-        Throwable thrown = catchThrowable(() -> playerService.decreaseBalance(missingId, 5));
+        Throwable thrown = catchThrowable(() -> playerService.payForGame(missingId, 5));
 
         // then
         assertThat(thrown)

@@ -1,22 +1,25 @@
 package pl.emilfrankiewicz.games.slotmachine.application;
 
-import pl.emilfrankiewicz.game.application.GameApplicationService;
+import pl.emilfrankiewicz.game.domain.GameEngine;
+import pl.emilfrankiewicz.game.domain.GameOutcome;
+import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.games.slotmachine.domain.GameResult;
-import pl.emilfrankiewicz.player.domain.PlayerId;
+import pl.emilfrankiewicz.games.slotmachine.domain.SlotDetailsFactory;
+import pl.emilfrankiewicz.games.slotmachine.domain.SlotGameOutcome;
 
-public class SlotMachineApplicationService {
+
+public class SlotMachineApplicationService implements GameEngine {
 
     private final SlotMachineService slotMachineService;
-    private final GameApplicationService gameApplicationService;
 
-    public SlotMachineApplicationService(SlotMachineService slotMachineService, GameApplicationService gameApplicationService) {
+    public SlotMachineApplicationService(SlotMachineService slotMachineService) {
         this.slotMachineService = slotMachineService;
-        this.gameApplicationService = gameApplicationService;
     }
 
-    GameResult playSlotMachine(PlayerId id) {
+    public GameOutcome play() {
         GameResult gameResult = slotMachineService.gameResult();
-        gameApplicationService.applyResult(id, gameResult);
-        return gameResult;
+        String detailsJson = SlotDetailsFactory.jsonFrom(gameResult);
+        SlotGameOutcome gameOutcome = SlotMachineOutcomeMapper.mapFromGameResultToSlotGameOutcome(gameResult, GameType.SLOT, detailsJson);
+        return SlotMachineOutcomeMapper.mapFromSlotGameOutcomeToGameOutcome(gameOutcome);
     }
 }

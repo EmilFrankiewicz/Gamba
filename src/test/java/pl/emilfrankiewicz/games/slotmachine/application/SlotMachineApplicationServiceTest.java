@@ -1,16 +1,17 @@
 package pl.emilfrankiewicz.games.slotmachine.application;
 
 import org.junit.jupiter.api.Test;
-import pl.emilfrankiewicz.game.application.GameApplicationService;
+import pl.emilfrankiewicz.game.domain.GameOutcome;
+import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.games.slotmachine.domain.EvaluationResult;
+import pl.emilfrankiewicz.games.slotmachine.domain.SlotGameOutcome;
 import pl.emilfrankiewicz.games.slotmachine.domain.GameResult;
-import pl.emilfrankiewicz.player.domain.PlayerId;
 
 import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.*;
 import static pl.emilfrankiewicz.games.slotmachine.domain.Symbol.BAR;
 import static pl.emilfrankiewicz.games.slotmachine.domain.Symbol.SEVEN;
@@ -20,95 +21,75 @@ import static pl.emilfrankiewicz.games.slotmachine.domain.WinCategory.VERY_HIGH;
 class SlotMachineApplicationServiceTest {
 
     @Test
-    void shouldReturnGameResultWhenPlayingSlotMachine() {
-        // given
+    void shouldReturnGameOutcomeWhenPlayingSlotMachine() {
         SlotMachineService slotMachineService = mock(SlotMachineService.class);
-        GameApplicationService gameApplicationService = mock(GameApplicationService.class);
-        SlotMachineApplicationService slotMachineApplicationService = new SlotMachineApplicationService(slotMachineService, gameApplicationService);
+        SlotMachineApplicationService slotMachineApplicationService =
+                new SlotMachineApplicationService(slotMachineService);
 
         Instant now = Instant.parse("2024-01-01T00:00:00Z");
-        GameResult gameResult = new GameResult(true, List.of(SEVEN, SEVEN, SEVEN), new EvaluationResult(100, VERY_HIGH), now);
+        GameResult gameResult = new GameResult(
+                true,
+                List.of(SEVEN, SEVEN, SEVEN),
+                new EvaluationResult(100, VERY_HIGH),
+                now
+        );
 
         when(slotMachineService.gameResult()).thenReturn(gameResult);
 
-        PlayerId id = new PlayerId("1");
+        GameOutcome outcome = slotMachineApplicationService.play();
 
-        // when
-        GameResult result = slotMachineApplicationService.playSlotMachine(id);
+        assertThat(outcome.win()).isEqualTo(true);
+        assertThat(outcome.payout()).isEqualTo(100);
+        assertThat(outcome.occurredAt()).isEqualTo(now);
+        assertThat(outcome.gameType()).isEqualTo(GameType.SLOT);
+        assertThat(outcome.details()).contains("SEVEN");
+        assertThat(outcome.details()).contains("VERY_HIGH");
 
-        // then
-        assertThat(result).isEqualTo(gameResult);
         verify(slotMachineService).gameResult();
-        verify(gameApplicationService).applyResult(id, gameResult);
     }
 
     @Test
-    void shouldReturnGameResultWhenPlayerLoses() {
-        // given
+    void shouldReturnGameOutcomeWhenPlayerLoses() {
         SlotMachineService slotMachineService = mock(SlotMachineService.class);
-        GameApplicationService gameApplicationService = mock(GameApplicationService.class);
-        SlotMachineApplicationService slotMachineApplicationService = new SlotMachineApplicationService(slotMachineService, gameApplicationService);
+        SlotMachineApplicationService slotMachineApplicationService =
+                new SlotMachineApplicationService(slotMachineService);
 
         Instant now = Instant.parse("2024-01-01T00:00:00Z");
-        GameResult gameResult = new GameResult(false, List.of(SEVEN, SEVEN, BAR), new EvaluationResult(0, LOSS), now);
+        GameResult gameResult = new GameResult(
+                false,
+                List.of(SEVEN, SEVEN, BAR),
+                new EvaluationResult(0, LOSS),
+                now
+        );
 
         when(slotMachineService.gameResult()).thenReturn(gameResult);
 
-        PlayerId id = new PlayerId("1");
+        GameOutcome outcome = slotMachineApplicationService.play();
 
-        // when
-        GameResult result = slotMachineApplicationService.playSlotMachine(id);
+        assertThat(outcome.win()).isEqualTo(false);
+        assertThat(outcome.payout()).isEqualTo(0);
+        assertThat(outcome.occurredAt()).isEqualTo(now);
+        assertThat(outcome.gameType()).isEqualTo(GameType.SLOT);
+        assertThat(outcome.details()).contains("BAR");
+        assertThat(outcome.details()).contains("LOSS");
 
-        // then
-        assertThat(result).isEqualTo(gameResult);
         verify(slotMachineService).gameResult();
-        verify(gameApplicationService).applyResult(id, gameResult);
     }
 
     @Test
     void shouldThrowExceptionWhenGameResultFails() {
-        // given
         SlotMachineService slotMachineService = mock(SlotMachineService.class);
-        GameApplicationService gameApplicationService = mock(GameApplicationService.class);
-        SlotMachineApplicationService slotMachineApplicationService = new SlotMachineApplicationService(slotMachineService, gameApplicationService);
+        SlotMachineApplicationService slotMachineApplicationService =
+                new SlotMachineApplicationService(slotMachineService);
 
         when(slotMachineService.gameResult()).thenThrow(new RuntimeException("Failed to generate game result"));
 
-        PlayerId id = new PlayerId("1");
+        Throwable thrown = catchThrowable(slotMachineApplicationService::play);
 
-        // when
-        Throwable thrown = catchThrowable(() -> slotMachineApplicationService.playSlotMachine(id));
-
-        // then
-        assertThat(thrown).isInstanceOf(RuntimeException.class).hasMessage("Failed to generate game result");
-        verify(slotMachineService).gameResult();
-        verify(gameApplicationService, never()).applyResult(any(), any());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenApplyResultFails() {
-        // given
-        SlotMachineService slotMachineService = mock(SlotMachineService.class);
-        GameApplicationService gameApplicationService = mock(GameApplicationService.class);
-        SlotMachineApplicationService slotMachineApplicationService = new SlotMachineApplicationService(slotMachineService, gameApplicationService);
-
-        Instant now = Instant.parse("2024-01-01T00:00:00Z");
-        GameResult gameResult = new GameResult(false, List.of(SEVEN, SEVEN, BAR), new EvaluationResult(0, LOSS), now);
-
-        PlayerId id = new PlayerId("1");
-
-        when(slotMachineService.gameResult()).thenReturn(gameResult);
-
-        doThrow(new RuntimeException("Failed to generate game result")).when(gameApplicationService).applyResult(id, gameResult);
-
-        // when
-        Throwable thrown = catchThrowable(() -> slotMachineApplicationService.playSlotMachine(id));
-
-        // then
-        assertThat(thrown).isInstanceOf(RuntimeException.class).hasMessage("Failed to generate game result");
+        assertThat(thrown)
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("Failed to generate game result");
 
         verify(slotMachineService).gameResult();
-        verify(gameApplicationService).applyResult(id, gameResult);
     }
-
 }
