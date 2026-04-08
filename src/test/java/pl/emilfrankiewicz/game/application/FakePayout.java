@@ -1,8 +1,8 @@
 package pl.emilfrankiewicz.game.application;
 
-import pl.emilfrankiewicz.game.domain.GamePayout;
+import pl.emilfrankiewicz.game.domain.BasePayout;
 
-public class FakePayout implements GamePayout {
+public class FakePayout implements BasePayout {
 
     private final int amount;
 

@@ -1,6 +1,7 @@
 package pl.emilfrankiewicz.games.slotmachine.application;
 
 import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.game.domain.Bet;
 import pl.emilfrankiewicz.game.domain.GameOutcome;
 import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.games.slotmachine.domain.EvaluationResult;
@@ -33,13 +34,14 @@ class SlotMachineApplicationServiceTest {
                 new EvaluationResult(100, VERY_HIGH),
                 now
         );
+        Bet bet = Bet.ONE;
 
         when(slotMachineService.gameResult()).thenReturn(gameResult);
 
-        GameOutcome outcome = slotMachineApplicationService.play();
+        GameOutcome outcome = slotMachineApplicationService.play(bet);
 
         assertThat(outcome.win()).isEqualTo(true);
-        assertThat(outcome.payout()).isEqualTo(100);
+        assertThat(outcome.finalPayout()).isEqualTo(100);
         assertThat(outcome.occurredAt()).isEqualTo(now);
         assertThat(outcome.gameType()).isEqualTo(GameType.SLOT);
         assertThat(outcome.details()).contains("SEVEN");
@@ -61,13 +63,14 @@ class SlotMachineApplicationServiceTest {
                 new EvaluationResult(0, LOSS),
                 now
         );
+        Bet bet = Bet.ONE;
 
         when(slotMachineService.gameResult()).thenReturn(gameResult);
 
-        GameOutcome outcome = slotMachineApplicationService.play();
+        GameOutcome outcome = slotMachineApplicationService.play(bet);
 
         assertThat(outcome.win()).isEqualTo(false);
-        assertThat(outcome.payout()).isEqualTo(0);
+        assertThat(outcome.finalPayout()).isEqualTo(0);
         assertThat(outcome.occurredAt()).isEqualTo(now);
         assertThat(outcome.gameType()).isEqualTo(GameType.SLOT);
         assertThat(outcome.details()).contains("BAR");
@@ -81,10 +84,11 @@ class SlotMachineApplicationServiceTest {
         SlotMachineService slotMachineService = mock(SlotMachineService.class);
         SlotMachineApplicationService slotMachineApplicationService =
                 new SlotMachineApplicationService(slotMachineService);
+        Bet bet = Bet.ONE;
 
         when(slotMachineService.gameResult()).thenThrow(new RuntimeException("Failed to generate game result"));
 
-        Throwable thrown = catchThrowable(slotMachineApplicationService::play);
+        Throwable thrown = catchThrowable(() -> slotMachineApplicationService.play(bet));
 
         assertThat(thrown)
                 .isInstanceOf(RuntimeException.class)

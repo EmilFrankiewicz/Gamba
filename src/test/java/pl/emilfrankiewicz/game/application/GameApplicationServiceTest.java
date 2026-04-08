@@ -1,16 +1,6 @@
 package pl.emilfrankiewicz.game.application;
 
-import org.junit.jupiter.api.Test;
-import pl.emilfrankiewicz.game.domain.GamePayout;
-import pl.emilfrankiewicz.player.application.InMemoryPlayerRepository;
-import pl.emilfrankiewicz.player.application.PlayerService;
-import pl.emilfrankiewicz.player.domain.Balance;
-import pl.emilfrankiewicz.player.domain.Player;
-import pl.emilfrankiewicz.player.domain.PlayerId;
-import pl.emilfrankiewicz.player.infrastructure.PlayerRepository;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 class GameApplicationServiceTest {
 

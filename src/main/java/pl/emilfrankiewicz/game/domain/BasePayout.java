@@ -1,5 +1,5 @@
 package pl.emilfrankiewicz.game.domain;
 
-public interface GamePayout {
+public interface BasePayout {
     int amount();
 }
