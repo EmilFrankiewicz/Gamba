@@ -5,7 +5,6 @@ import pl.emilfrankiewicz.game.domain.Bet;
 import pl.emilfrankiewicz.game.domain.GameOutcome;
 import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.games.slotmachine.domain.EvaluationResult;
-import pl.emilfrankiewicz.games.slotmachine.domain.SlotGameOutcome;
 import pl.emilfrankiewicz.games.slotmachine.domain.GameResult;
 
 import java.time.Instant;
@@ -41,7 +40,7 @@ class SlotMachineApplicationServiceTest {
         GameOutcome outcome = slotMachineApplicationService.play(bet);
 
         assertThat(outcome.win()).isEqualTo(true);
-        assertThat(outcome.finalPayout()).isEqualTo(100);
+        assertThat(outcome.payout()).isEqualTo(100);
         assertThat(outcome.occurredAt()).isEqualTo(now);
         assertThat(outcome.gameType()).isEqualTo(GameType.SLOT);
         assertThat(outcome.details()).contains("SEVEN");
@@ -70,7 +69,7 @@ class SlotMachineApplicationServiceTest {
         GameOutcome outcome = slotMachineApplicationService.play(bet);
 
         assertThat(outcome.win()).isEqualTo(false);
-        assertThat(outcome.finalPayout()).isEqualTo(0);
+        assertThat(outcome.payout()).isEqualTo(0);
         assertThat(outcome.occurredAt()).isEqualTo(now);
         assertThat(outcome.gameType()).isEqualTo(GameType.SLOT);
         assertThat(outcome.details()).contains("BAR");

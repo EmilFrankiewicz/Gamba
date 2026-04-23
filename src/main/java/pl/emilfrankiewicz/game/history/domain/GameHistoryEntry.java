@@ -1,9 +1,11 @@
 package pl.emilfrankiewicz.game.history.domain;
 
+import pl.emilfrankiewicz.game.domain.GameOutcome;
 import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.player.domain.PlayerId;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class GameHistoryEntry {
 
@@ -41,6 +43,25 @@ public class GameHistoryEntry {
         this.balanceAfter = balanceAfter;
     }
 
+    public static GameHistoryEntry of(
+            PlayerId playerId,
+            GameOutcome outcome,
+            int cost,
+            int balanceBefore,
+            int balanceAfter
+    ) {
+        return new GameHistoryEntry(
+                new GameHistoryId(UUID.randomUUID().toString()),
+                playerId,
+                outcome.occurredAt(),
+                outcome.gameType(),
+                outcome.details(),
+                cost,
+                outcome.payout(),
+                balanceBefore,
+                balanceAfter
+        );
+    }
     public GameHistoryEntry withId(GameHistoryId id) {
         return new GameHistoryEntry(id, this.playerId, this.occurredAt, this.gameType, this.details, this.cost, this.payout, this.balanceBefore, this.balanceAfter);
     }

@@ -26,6 +26,12 @@ public class Player {
         return increase(amount);
     }
 
+    public Player applyPayout(int finalPayout) {
+        return finalPayout > 0
+                ? win(finalPayout)
+                : this;
+    }
+
     private Player increase(int amount) {
         return new Player(this.id, balance.increase(amount));
     }
@@ -33,6 +39,5 @@ public class Player {
     private Player decrease(int amount) {
         return new Player(this.id, balance.decrease(amount));
     }
-
 
 }

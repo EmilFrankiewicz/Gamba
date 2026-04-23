@@ -27,15 +27,13 @@ public class GameApplicationService {
     public GameOutcome playGame(PlayerId id, Bet bet) {
         Player player = playerService.find(id);
         int balanceBefore = player.getBalance().getAmount();
-
         int cost = gameCostPolicy.calculateCost(bet);
-        playerService.payForGame(id, cost);
+
+        Player afterPay = player.payForGame(cost);
 
         GameOutcome outcome = gameEngine.play(bet);
 
-        Player finalPlayer = outcome.finalPayout() > 0
-                ? playerService.win(id, outcome.finalPayout())
-                : player;
+        Player finalPlayer = playerService.save(afterPay.applyPayout(outcome.payout()));
 
         GameHistoryEntry entry = new GameHistoryEntry(
                 new GameHistoryId(UUID.randomUUID().toString()),
@@ -44,7 +42,7 @@ public class GameApplicationService {
                 outcome.gameType(),
                 outcome.details(),
                 cost,
-                outcome.finalPayout(),
+                outcome.payout(),
                 balanceBefore,
                 finalPlayer.getBalance().getAmount()
         );
