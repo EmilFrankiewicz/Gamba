@@ -6,7 +6,7 @@ import pl.emilfrankiewicz.game.domain.GameType;
 import java.time.Instant;
 
 public record SlotGameOutcome(boolean win, Instant occurredAt, GameType gameType, String details, int basePayout,
-                              int finalPayout) {
+                              int payout) {
 
     public static SlotGameOutcome from(GameResult gameResult, Bet bet, GameType gameType, String detailsJson) {
         int basePayout = gameResult.evaluation().payout();

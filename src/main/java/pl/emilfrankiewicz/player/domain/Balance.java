@@ -5,14 +5,23 @@ public class Balance {
     private final int amount;
 
     public Balance(int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Amount cannot be less than 0");
+        }
         this.amount = amount;
     }
 
     public Balance increase(int amountToAdd) {
+        if (amountToAdd < 0) {
+            throw new IllegalArgumentException("Amount to add cannot be less than 0");
+        }
         return new Balance(amount + amountToAdd);
     }
 
     public Balance decrease(int amountToSubtract) {
+        if (amountToSubtract < 0) {
+            throw new IllegalArgumentException("Amount to subtract cannot be less than 0");
+        }
         if (amount - amountToSubtract < 0) {
             throw new IllegalArgumentException("Amount cannot be less than 0");
         }
@@ -30,20 +39,9 @@ public class Balance {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Balance)) {
-            return false;
-        }
+        if (this == obj) return true;
+        if (!(obj instanceof Balance)) return false;
         Balance other = (Balance) obj;
-        if (this.amount == other.amount) {
-            return true;
-        }
-        return false;
+        return this.amount == other.amount;
     }
 }
-

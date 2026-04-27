@@ -1,82 +1,59 @@
 package pl.emilfrankiewicz.game.application;
 
+import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.game.domain.*;
+import pl.emilfrankiewicz.game.history.domain.GameHistoryRepository;
+import pl.emilfrankiewicz.game.history.infrastructure.InMemoryGameHistoryRepository;
+import pl.emilfrankiewicz.player.application.InMemoryPlayerRepository;
+import pl.emilfrankiewicz.player.application.PlayerService;
+import pl.emilfrankiewicz.player.domain.Balance;
+import pl.emilfrankiewicz.player.domain.Player;
+import pl.emilfrankiewicz.player.domain.PlayerId;
+import pl.emilfrankiewicz.player.infrastructure.PlayerRepository;
+
+import java.time.Instant;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GameApplicationServiceTest {
 
-    /*
     @Test
-    void shouldIncreasePlayerBalanceWhenPayoutIsPositive() {
+    void shouldPlayGameAndUpdatePlayerBalanceAndSaveHistory() {
         // given
-        PlayerRepository mockDB = new InMemoryPlayerRepository();
-        PlayerService playerService = new PlayerService(mockDB);
-        GameApplicationService gameService = new GameApplicationService(playerService);
+        PlayerRepository playerRepo = new InMemoryPlayerRepository();
+        PlayerService playerService = new PlayerService(playerRepo);
 
-        PlayerId id = new PlayerId("1");
-        mockDB.save(new Player(id, new Balance(0)));
-        GamePayout payout = new FakePayout(10);
+
+        PlayerId playerId = new PlayerId("1");
+        playerRepo.save(new Player(playerId, new Balance(100)));
+
+        GameCostPolicy costPolicy = new StandardGameCostPolicy(10);
+
+        GameHistoryRepository historyRepo = new InMemoryGameHistoryRepository();
+
+        GameEngine fakeEngine = bet -> new GameOutcome(
+                true,
+                Instant.now(),
+                GameType.SLOT,
+                "details",
+                50,
+                100
+        );
+
+        GameApplicationService service = new GameApplicationService(
+                playerService,
+                fakeEngine,
+                costPolicy,
+                historyRepo
+        );
 
         // when
-        gameService.applyResult(id, payout);
+        GameOutcome result = service.playGame(playerId, Bet.ONE);
 
         // then
-        assertThat(mockDB.find(id).getBalance().getAmount()).isEqualTo(10);
+        Player updated = playerRepo.find(playerId);
+
+        assertThat(updated.getBalance().getAmount()).isEqualTo(190);
+        assertThat(result.payout()).isEqualTo(100);
     }
-
-    @Test
-    void shouldDecreasePlayerBalanceWhenPayoutIsNegative() {
-        // given
-        PlayerRepository mockDB = new InMemoryPlayerRepository();
-        PlayerService playerService = new PlayerService(mockDB);
-        GameApplicationService gameService = new GameApplicationService(playerService);
-
-        PlayerId id = new PlayerId("1");
-        mockDB.save(new Player(id, new Balance(15)));
-        GamePayout payout = new FakePayout(-10);
-
-        // when
-        gameService.applyResult(id, payout);
-
-        // then
-        assertThat(mockDB.find(id).getBalance().getAmount()).isEqualTo(5);
-    }
-
-    @Test
-    void shouldNotChangeBalanceWhenPayoutIsZero() {
-        // given
-        PlayerRepository mockDB = new InMemoryPlayerRepository();
-        PlayerService playerService = new PlayerService(mockDB);
-        GameApplicationService gameService = new GameApplicationService(playerService);
-
-        PlayerId id = new PlayerId("1");
-        mockDB.save(new Player(id, new Balance(5)));
-        GamePayout payout = new FakePayout(0);
-
-        // when
-        gameService.applyResult(id, payout);
-
-        // then
-        assertThat(mockDB.find(id).getBalance().getAmount()).isEqualTo(5);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenPlayerNotFound() {
-        // given
-        PlayerRepository mockDB = new InMemoryPlayerRepository();
-        PlayerService playerService = new PlayerService(mockDB);
-        GameApplicationService gameService = new GameApplicationService(playerService);
-
-        PlayerId id = new PlayerId("100");
-        GamePayout payout = new FakePayout(10);
-
-        // when
-        Throwable thrown = catchThrowable(() -> gameService.applyResult(id, payout));
-
-        // then
-        assertThat(thrown)
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Player not found");
-    }
-
-     */
 }

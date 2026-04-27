@@ -7,6 +7,6 @@ public class SlotMachineOutcomeMapper {
 
     public static GameOutcome mapFromSlotGameOutcomeToGameOutcome(SlotGameOutcome slotGameOutcome)
     {
-        return new GameOutcome(slotGameOutcome.win(), slotGameOutcome.occurredAt(), slotGameOutcome.gameType(), slotGameOutcome.details(), slotGameOutcome.basePayout(), slotGameOutcome.finalPayout());
+        return new GameOutcome(slotGameOutcome.win(), slotGameOutcome.occurredAt(), slotGameOutcome.gameType(), slotGameOutcome.details(), slotGameOutcome.basePayout(), slotGameOutcome.payout());
     }
 }
