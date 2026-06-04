@@ -12,7 +12,7 @@ class ColorTest {
         int number = 0;
 
         //when
-        Color result = Color.colorOf(0);
+        Color result = Color.colorOf(number);
 
         //then
         assertThat(result).isEqualTo(Color.GREEN);
@@ -24,7 +24,7 @@ class ColorTest {
         int number = 1;
 
         //when
-        Color result = Color.colorOf(1);
+        Color result = Color.colorOf(number);
 
         //then
         assertThat(result).isEqualTo(Color.RED);
@@ -36,7 +36,7 @@ class ColorTest {
         int number = 2;
 
         //when
-        Color result = Color.colorOf(2);
+        Color result = Color.colorOf(number);
 
         //then
         assertThat(result).isEqualTo(Color.BLACK);
