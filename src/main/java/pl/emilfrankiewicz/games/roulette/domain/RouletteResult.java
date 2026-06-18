@@ -16,7 +16,17 @@ public class RouletteResult {
     }
 
     public boolean isEven() {
+        if (number == 0) {
+            return false;
+        }
         return number % 2 == 0;
+    }
+
+    public boolean isOdd() {
+        if (number == 0) {
+            return false;
+        }
+        return number % 2 != 0;
     }
 
     public Color getColor() {
