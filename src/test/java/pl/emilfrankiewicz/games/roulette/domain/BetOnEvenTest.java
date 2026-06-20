@@ -31,4 +31,17 @@ class BetOnEvenTest {
         //then
         assertThat(result).isFalse();
     }
+
+    @Test
+    void shouldLoseWhenResultIsZero() {
+        // given
+        BetOnEven betOnEven = new BetOnEven();
+        RouletteResult rouletteResult = new RouletteResult(0);
+
+        // when
+        boolean result = betOnEven.checkIfWin(rouletteResult);
+
+        // then
+        assertThat(result).isFalse();
+    }
 }

@@ -3,6 +3,7 @@ package pl.emilfrankiewicz.games.roulette.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 class BetOnColorTest {
 
@@ -32,4 +33,14 @@ class BetOnColorTest {
         assertThat(result).isFalse();
     }
 
+    @Test
+    void shouldThrowExceptionWhenColorIsNull() {
+        //when
+        Throwable thrown = catchThrowable(() -> new BetOnColor(null));
+
+        //then
+        assertThat(thrown)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Color can't be null");
+    }
 }
