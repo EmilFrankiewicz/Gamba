@@ -10,8 +10,8 @@ class BetOnColorTest {
     @Test
     void shouldWinWhenBetColorMatchesResult() {
         //given
-        BetOnColor betOnColor = new BetOnColor(Color.GREEN);
-        RouletteResult rouletteResult = new RouletteResult(0);
+        BetOnColor betOnColor = new BetOnColor(Color.RED);
+        RouletteResult rouletteResult = new RouletteResult(1);
 
         //when
         boolean result = betOnColor.checkIfWin(rouletteResult);
@@ -23,7 +23,7 @@ class BetOnColorTest {
     @Test
     void shouldLoseWhenBetColorDoesNotMatchResult() {
         //given
-        BetOnColor betOnColor = new BetOnColor(Color.GREEN);
+        BetOnColor betOnColor = new BetOnColor(Color.BLACK);
         RouletteResult rouletteResult = new RouletteResult(1);
 
         //when
@@ -42,5 +42,16 @@ class BetOnColorTest {
         assertThat(thrown)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Color can't be null");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenColorIsGreen() {
+        //when
+        Throwable thrown = catchThrowable(() -> new BetOnColor(Color.GREEN));
+
+        //then
+        assertThat(thrown)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Only RED or BLACK colors is allowed");
     }
 }
