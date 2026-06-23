@@ -33,8 +33,7 @@ class BetOnOddTest {
     }
 
     @Test
-    void shouldLoseWhenResultIsZero()
-    {
+    void shouldLoseWhenResultIsZero() {
         //given
         BetOnOdd betOnOdd = new BetOnOdd();
         RouletteResult rouletteResult = new RouletteResult(0);
@@ -44,5 +43,17 @@ class BetOnOddTest {
 
         //then
         assertThat(result).isFalse();
+    }
+
+    @Test
+    void shouldReturn1MultiplierForOddBet() {
+        //given
+        BetOnOdd betOnOdd = new BetOnOdd();
+
+        //when
+        int result = betOnOdd.payoutMultiplier();
+
+        //then
+        assertThat(result).isEqualTo(1);
     }
 }

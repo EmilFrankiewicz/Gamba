@@ -31,4 +31,16 @@ class BetOnNumberTest {
         //then
         assertThat(result).isFalse();
     }
+
+    @Test
+    void shouldReturn35MultiplierForNumberBet() {
+        //given
+        BetOnNumber betOnNumber = new BetOnNumber(17);
+
+        //when
+        int result = betOnNumber.payoutMultiplier();
+
+        //then
+        assertThat(result).isEqualTo(35);
+    }
 }

@@ -6,4 +6,9 @@ public class BetOnEven implements Bet {
     public boolean checkIfWin(RouletteResult rouletteResult) {
         return rouletteResult.isEven();
     }
+
+    @Override
+    public int payoutMultiplier() {
+        return 1;
+    }
 }

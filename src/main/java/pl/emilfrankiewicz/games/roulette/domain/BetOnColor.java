@@ -17,4 +17,9 @@ public class BetOnColor implements Bet {
     public boolean checkIfWin(RouletteResult rouletteResult) {
         return this.color == rouletteResult.getColor();
     }
+
+    @Override
+    public int payoutMultiplier() {
+        return 1;
+    }
 }

@@ -54,4 +54,16 @@ class BetOnColorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Only RED or BLACK colors is allowed");
     }
+
+    @Test
+    void shouldReturn1MultiplierForColorBet() {
+        //given
+        BetOnColor betOnColor = new BetOnColor(Color.BLACK);
+
+        //when
+        int result = betOnColor.payoutMultiplier();
+
+        //then
+        assertThat(result).isEqualTo(1);
+    }
 }

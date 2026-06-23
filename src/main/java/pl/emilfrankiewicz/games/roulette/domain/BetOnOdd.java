@@ -6,4 +6,9 @@ public class BetOnOdd implements Bet {
     public boolean checkIfWin(RouletteResult rouletteResult) {
         return rouletteResult.isOdd();
     }
+
+    @Override
+    public int payoutMultiplier() {
+        return 1;
+    }
 }

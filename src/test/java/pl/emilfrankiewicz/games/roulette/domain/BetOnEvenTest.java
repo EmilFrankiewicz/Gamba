@@ -44,4 +44,17 @@ class BetOnEvenTest {
         // then
         assertThat(result).isFalse();
     }
+
+    @Test
+    void shouldReturn1MultiplierForEvenBet() {
+        // given
+        BetOnEven betOnEven = new BetOnEven();
+
+        // when
+        int result = betOnEven.payoutMultiplier();
+
+        // then
+        assertThat(result).isEqualTo(1);
+    }
+
 }

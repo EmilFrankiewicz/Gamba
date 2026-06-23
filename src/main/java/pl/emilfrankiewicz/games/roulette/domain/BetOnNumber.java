@@ -1,6 +1,6 @@
 package pl.emilfrankiewicz.games.roulette.domain;
 
-public class BetOnNumber implements Bet{
+public class BetOnNumber implements Bet {
 
     private final int number;
 
@@ -13,5 +13,10 @@ public class BetOnNumber implements Bet{
 
     public boolean checkIfWin(RouletteResult rouletteResult) {
         return this.number == rouletteResult.getNumber();
+    }
+
+    @Override
+    public int payoutMultiplier() {
+        return 35;
     }
 }
