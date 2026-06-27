@@ -4,8 +4,8 @@ import java.util.SplittableRandom;
 
 public class Roulette {
 
-    public int spin() {
+    public RouletteResult spin() {
         SplittableRandom number = new SplittableRandom();
-        return number.nextInt(0, 37);
+        return new RouletteResult(number.nextInt(0, 37));
     }
 }

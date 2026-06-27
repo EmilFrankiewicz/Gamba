@@ -1,7 +1,7 @@
 package pl.emilfrankiewicz.games.roulette.domain;
 
 public class PayoutCalculator {
-    int calculatePayout(int amount, Bet bet) {
-        return amount * bet.payoutMultiplier();
+    Amount calculatePayout(Amount amount, Bet bet) {
+        return new Amount(amount.getAmount() * bet.payoutMultiplier());
     }
 }

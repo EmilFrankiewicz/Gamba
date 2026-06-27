@@ -12,9 +12,9 @@ class RouletteTest {
         Roulette roulette = new Roulette();
 
         //when
-        int number = roulette.spin();
+        RouletteResult number = roulette.spin();
 
         //then
-        assertThat(number).isBetween(0, 36);
+        assertThat(number.getNumber()).isBetween(0, 36);
     }
 }

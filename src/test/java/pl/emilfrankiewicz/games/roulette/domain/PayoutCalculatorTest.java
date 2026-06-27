@@ -13,9 +13,9 @@ class PayoutCalculatorTest {
         Bet bet = new BetOnNumber(1);
 
         //when
-        int result = payoutCalculator.calculatePayout(10, bet);
+        Amount result = payoutCalculator.calculatePayout(new Amount(10), bet);
 
         //then
-        assertThat(result).isEqualTo(350);
+        assertThat(result.getAmount()).isEqualTo(350);
     }
 }
