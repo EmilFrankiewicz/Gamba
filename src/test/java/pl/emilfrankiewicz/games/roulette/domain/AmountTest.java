@@ -18,20 +18,11 @@ class AmountTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenAmountIsZero() {
-        //given & when
-        Throwable thrown = catchThrowable(() -> new Amount(0));
-
-        //then
-        assertThat(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage("Amount cannot be less than or equal to 0");
-    }
-
-    @Test
     void shouldThrowExceptionWhenAmountIsNegative() {
         //given & when
         Throwable thrown = catchThrowable(() -> new Amount(-10));
 
         //then
-        assertThat(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage("Amount cannot be less than or equal to 0");
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage("Amount cannot be less than 0");
     }
 }
