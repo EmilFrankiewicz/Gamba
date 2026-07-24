@@ -24,4 +24,11 @@ public record BetResult(
                 Instant.now()
         );
     }
+
+    public Amount payout() {
+        if (!isWin) {
+            return new Amount(0);
+        }
+        return new Amount(winAmount.getAmount() + placedBet.amount().getAmount());
+    }
 }
