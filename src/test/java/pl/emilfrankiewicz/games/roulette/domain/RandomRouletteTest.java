@@ -4,15 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class RouletteTest {
+class RandomRouletteTest {
 
     @Test
     void shouldReturnNumberFrom0To36() {
         //given
-        Roulette roulette = new Roulette();
+        RandomRoulette randomRoulette = new RandomRoulette();
 
         //when
-        RouletteResult number = roulette.spin();
+        RouletteResult number = randomRoulette.spin();
 
         //then
         assertThat(number.getNumber()).isBetween(0, 36);
