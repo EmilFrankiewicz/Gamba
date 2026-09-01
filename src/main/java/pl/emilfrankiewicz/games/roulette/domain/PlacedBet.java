@@ -1,5 +1,7 @@
 package pl.emilfrankiewicz.games.roulette.domain;
 
+import pl.emilfrankiewicz.game.domain.Amount;
+
 public record PlacedBet(Amount amount, Bet bet) {
     public PlacedBet {
         if (amount == null) {

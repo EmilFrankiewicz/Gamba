@@ -1,4 +1,4 @@
-package pl.emilfrankiewicz.games.roulette.domain;
+package pl.emilfrankiewicz.game.domain;
 
 public final class Amount {
 

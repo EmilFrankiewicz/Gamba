@@ -1,5 +1,7 @@
 package pl.emilfrankiewicz.games.roulette.domain;
 
+import pl.emilfrankiewicz.game.domain.Amount;
+
 public class BetEvaluator {
 
    public BetResult evaluate(PlacedBet placedBet, RouletteResult rouletteResult, PayoutCalculator payoutCalculator) {

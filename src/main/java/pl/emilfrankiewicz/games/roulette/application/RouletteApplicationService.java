@@ -1,5 +1,7 @@
 package pl.emilfrankiewicz.games.roulette.application;
 
+import pl.emilfrankiewicz.game.application.PlayedGame;
+import pl.emilfrankiewicz.game.domain.GameCostPolicy;
 import pl.emilfrankiewicz.game.domain.GameOutcome;
 import pl.emilfrankiewicz.games.roulette.domain.*;
 
@@ -17,9 +19,10 @@ public class RouletteApplicationService {
         this.betEvaluator = betEvaluator;
     }
 
-    public GameOutcome play(PlacedBet placedBet) {
+    public PlayedGame play(PlacedBet placedBet) {
         RouletteResult rouletteResult = roulette.spin();
         BetResult betResult = betEvaluator.evaluate(placedBet, rouletteResult, payoutCalculator);
-        return mapFromBetResultToGameOutcome(betResult);
+        GameOutcome gameOutcome = mapFromBetResultToGameOutcome(betResult);
+        return new PlayedGame(placedBet.amount(), gameOutcome);
     }
 }

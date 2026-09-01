@@ -1,6 +1,7 @@
 package pl.emilfrankiewicz.games.roulette.domain;
 
 import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.game.domain.Amount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

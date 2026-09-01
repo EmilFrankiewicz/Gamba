@@ -1,5 +1,7 @@
 package pl.emilfrankiewicz.games.roulette.domain;
 
+import pl.emilfrankiewicz.game.domain.Amount;
+
 import java.time.Instant;
 
 public record BetResult(
