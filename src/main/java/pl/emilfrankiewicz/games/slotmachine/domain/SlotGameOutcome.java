@@ -1,6 +1,5 @@
 package pl.emilfrankiewicz.games.slotmachine.domain;
 
-import pl.emilfrankiewicz.game.domain.Bet;
 import pl.emilfrankiewicz.game.domain.GameType;
 
 import java.time.Instant;

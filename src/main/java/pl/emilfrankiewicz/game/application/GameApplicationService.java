@@ -20,32 +20,33 @@ public class GameApplicationService {
         this.gameHistoryRepository = gameHistoryRepository;
     }
 
-    public GameOutcome playGame(PlayerId id, PlayedGame playedGame) {
+    public GameOutcome playGame(PlayerId id, PreparedGame preparedGame) {
         Player player = playerService.find(id);
-        int balanceBefore = player.getBalance().getAmount();
 
-        int cost = playedGame.cost().getAmount();
+        int balanceBefore = player.getBalance().getAmount();
+        int cost = preparedGame.cost().getAmount();
 
         Player afterPay = player.payForGame(cost);
 
-        Player finalPlayer = playerService.save(afterPay.applyPayout(playedGame.gameOutcome().payout()));
+        GameOutcome outcome = preparedGame.play();
+
+        Player finalPlayer = playerService.save(afterPay.applyPayout(outcome.payout()));
 
         GameHistoryEntry entry = new GameHistoryEntry(
                 new GameHistoryId(UUID.randomUUID().toString()),
                 id,
-                playedGame.gameOutcome().
-                        occurredAt(),
-                playedGame.gameOutcome().gameType(),
-                playedGame.gameOutcome().details(),
+                outcome.occurredAt(),
+                outcome.gameType(),
+                outcome.details(),
                 cost,
-                playedGame.gameOutcome().payout(),
+                outcome.payout(),
                 balanceBefore,
                 finalPlayer.getBalance().getAmount()
         );
 
         gameHistoryRepository.save(entry);
 
-        return playedGame.gameOutcome();
+        return outcome;
     }
 }
 

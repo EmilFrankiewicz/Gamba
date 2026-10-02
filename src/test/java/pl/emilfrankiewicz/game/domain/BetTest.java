@@ -2,6 +2,7 @@ package pl.emilfrankiewicz.game.domain;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import pl.emilfrankiewicz.games.slotmachine.domain.Bet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

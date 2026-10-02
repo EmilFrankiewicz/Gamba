@@ -1,4 +1,7 @@
-package pl.emilfrankiewicz.game.domain;
+package pl.emilfrankiewicz.games.slotmachine.domain;
+
+import pl.emilfrankiewicz.game.domain.Amount;
+import pl.emilfrankiewicz.game.domain.InvalidBetException;
 
 public enum Bet {
     ONE(1),
@@ -14,6 +17,11 @@ public enum Bet {
 
     public int multiplier() {
         return multiplier;
+    }
+
+
+    public Amount calculateCost(Amount baseCost) {
+        return new Amount(this.multiplier * baseCost.getAmount());
     }
 
     public static Bet fromString(String betToParse) {
