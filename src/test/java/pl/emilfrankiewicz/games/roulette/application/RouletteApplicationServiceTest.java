@@ -1,16 +1,33 @@
 package pl.emilfrankiewicz.games.roulette.application;
 
 import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.game.domain.Amount;
 import pl.emilfrankiewicz.game.domain.GameOutcome;
 import pl.emilfrankiewicz.game.domain.GameType;
+import pl.emilfrankiewicz.game.domain.PreparedGame;
 import pl.emilfrankiewicz.games.roulette.domain.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-class RandomRouletteApplicationServiceTest {
+class RouletteApplicationServiceTest {
 
     @Test
-    void shouldReturnWinningGameOutcomeWhenPlayerWins() {
+    void shouldReturnCostAndNotRunGameWhenPreparing() {
+        PlacedBet placedBet = new PlacedBet(new Amount(10), new BetOnNumber(1));
+        BetEvaluator betEvaluator = new BetEvaluator();
+        Roulette roulette = mock(Roulette.class);
+        PayoutCalculator payoutCalculator = new PayoutCalculator();
+        RouletteApplicationService rouletteApplicationService = new RouletteApplicationService(roulette, payoutCalculator, betEvaluator);
+
+        PreparedGame preparedGame = rouletteApplicationService.prepare(placedBet);
+        verify(roulette, never()).spin();
+
+        assertThat(preparedGame.cost()).isEqualTo(new Amount (10));
+    }
+
+    @Test
+    void shouldReturnWinningGameOutcomeWhenPreparedGameIsPlayed() {
         //given
         PlacedBet placedBet = new PlacedBet(new Amount(10), new BetOnNumber(1));
         Roulette roulette = new FakeRoulette(1);
@@ -19,19 +36,20 @@ class RandomRouletteApplicationServiceTest {
         RouletteApplicationService rouletteApplicationService = new RouletteApplicationService(roulette, payoutCalculator, betEvaluator);
 
         //when
-        GameOutcome gameOutcome = rouletteApplicationService.play(placedBet);
+        PreparedGame preparedGame = rouletteApplicationService.prepare(placedBet);
+        GameOutcome gameOutcome = preparedGame.play();
 
         //then
         assertThat(gameOutcome.win()).isTrue();
         assertThat(gameOutcome.gameType()).isEqualTo(GameType.ROULETTE);
         assertThat(gameOutcome.basePayout()).isEqualTo(350);
         assertThat(gameOutcome.payout()).isEqualTo(360);
-        assertThat(gameOutcome.details()).isNotBlank();
+        assertThat(gameOutcome.details()).contains("\"isWin\": true");
         assertThat(gameOutcome.occurredAt()).isNotNull();
     }
 
     @Test
-    void shouldReturnLosingGameOutcomeWhenPlayerLoses() {
+    void shouldReturnLosingGameOutcomeWhenPreparedGameIsPlayed() {
         //given
         PlacedBet placedBet = new PlacedBet(new Amount(10), new BetOnNumber(1));
         Roulette roulette = new FakeRoulette(2);
@@ -40,14 +58,15 @@ class RandomRouletteApplicationServiceTest {
         RouletteApplicationService rouletteApplicationService = new RouletteApplicationService(roulette, payoutCalculator, betEvaluator);
 
         //when
-        GameOutcome gameOutcome = rouletteApplicationService.play(placedBet);
+        PreparedGame preparedGame = rouletteApplicationService.prepare(placedBet);
+        GameOutcome gameOutcome = preparedGame.play();
 
         //then
         assertThat(gameOutcome.win()).isFalse();
         assertThat(gameOutcome.gameType()).isEqualTo(GameType.ROULETTE);
         assertThat(gameOutcome.basePayout()).isEqualTo(0);
         assertThat(gameOutcome.payout()).isEqualTo(0);
-        assertThat(gameOutcome.details()).isNotBlank();
+        assertThat(gameOutcome.details()).contains("\"isWin\": false");
         assertThat(gameOutcome.occurredAt()).isNotNull();
     }
 }
