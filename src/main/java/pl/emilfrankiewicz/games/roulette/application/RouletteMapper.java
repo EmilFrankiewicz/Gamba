@@ -8,6 +8,6 @@ import pl.emilfrankiewicz.games.roulette.domain.BetResultDetailsFactory;
 public class RouletteMapper {
 
     public static GameOutcome mapFromBetResultToGameOutcome(BetResult betResult) {
-        return new GameOutcome(betResult.isWin(), betResult.occurredAt(), GameType.ROULETTE, BetResultDetailsFactory.jsonFrom(betResult), betResult.winAmount().getAmount(), betResult.payout().getAmount());
+        return new GameOutcome(betResult.isWin(), betResult.occurredAt(), GameType.ROULETTE, BetResultDetailsFactory.jsonFrom(betResult), betResult.winAmount(), betResult.payout());
     }
 }

@@ -1,6 +1,7 @@
 package pl.emilfrankiewicz.game.history.infrastructure;
 
 import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.game.domain.Amount;
 import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.game.history.domain.GameHistoryEntry;
 import pl.emilfrankiewicz.player.domain.PlayerId;
@@ -22,7 +23,7 @@ class InMemoryGameHistoryRepositoryTest {
                 Instant.parse("2024-01-01T00:00:00Z"),
                 GameType.SLOT,
                 "symbols=[SEVEN,BAR,SEVEN],category=HIGH",
-                25, 50, 100, 125
+                new Amount(25), new Amount(50), new Amount(100), new Amount(125)
         );
 
         // when
@@ -31,7 +32,7 @@ class InMemoryGameHistoryRepositoryTest {
 
         // then
         assertThat(result).hasSize(1);
-        GameHistoryEntry saved = result.get(0);
+        GameHistoryEntry saved = result.getFirst();
 
         assertThat(saved.getId()).isNotNull();
     }
@@ -75,7 +76,7 @@ class InMemoryGameHistoryRepositoryTest {
                 Instant.parse(timestamp),
                 GameType.SLOT,
                 "symbols=[SEVEN,BAR,SEVEN],category=HIGH",
-                25, 50, 100, 125
+                new Amount(25), new Amount(50), new Amount(100), new Amount(125)
         );
     }
 }

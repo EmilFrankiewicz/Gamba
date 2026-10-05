@@ -23,8 +23,8 @@ public class GameApplicationService {
     public GameOutcome playGame(PlayerId id, PreparedGame preparedGame) {
         Player player = playerService.find(id);
 
-        int balanceBefore = player.getBalance().getAmount();
-        int cost = preparedGame.cost().getAmount();
+        Amount balanceBefore = new Amount(player.getBalance().getAmount());
+        Amount cost = preparedGame.cost();
 
         Player afterPay = player.payForGame(cost);
 
@@ -41,7 +41,7 @@ public class GameApplicationService {
                 cost,
                 outcome.payout(),
                 balanceBefore,
-                finalPlayer.getBalance().getAmount()
+                new Amount(finalPlayer.getBalance().getAmount())
         );
 
         gameHistoryRepository.save(entry);

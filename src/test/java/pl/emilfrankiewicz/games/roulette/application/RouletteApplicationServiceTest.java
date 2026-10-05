@@ -23,7 +23,7 @@ class RouletteApplicationServiceTest {
         PreparedGame preparedGame = rouletteApplicationService.prepare(placedBet);
         verify(roulette, never()).spin();
 
-        assertThat(preparedGame.cost()).isEqualTo(new Amount (10));
+        assertThat(preparedGame.cost()).isEqualTo(new Amount(10));
     }
 
     @Test
@@ -42,8 +42,8 @@ class RouletteApplicationServiceTest {
         //then
         assertThat(gameOutcome.win()).isTrue();
         assertThat(gameOutcome.gameType()).isEqualTo(GameType.ROULETTE);
-        assertThat(gameOutcome.basePayout()).isEqualTo(350);
-        assertThat(gameOutcome.payout()).isEqualTo(360);
+        assertThat(gameOutcome.basePayout()).isEqualTo(new Amount(350));
+        assertThat(gameOutcome.payout()).isEqualTo(new Amount(360));
         assertThat(gameOutcome.details()).contains("\"isWin\": true");
         assertThat(gameOutcome.occurredAt()).isNotNull();
     }
@@ -64,8 +64,8 @@ class RouletteApplicationServiceTest {
         //then
         assertThat(gameOutcome.win()).isFalse();
         assertThat(gameOutcome.gameType()).isEqualTo(GameType.ROULETTE);
-        assertThat(gameOutcome.basePayout()).isEqualTo(0);
-        assertThat(gameOutcome.payout()).isEqualTo(0);
+        assertThat(gameOutcome.basePayout()).isEqualTo(new Amount(0));
+        assertThat(gameOutcome.payout()).isEqualTo(new Amount(0));
         assertThat(gameOutcome.details()).contains("\"isWin\": false");
         assertThat(gameOutcome.occurredAt()).isNotNull();
     }

@@ -1,6 +1,7 @@
 package pl.emilfrankiewicz.game.history.domain;
 
 import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.game.domain.Amount;
 import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.player.domain.PlayerId;
 
@@ -18,10 +19,10 @@ class GameHistoryEntryTest {
         final Instant timestamp = Instant.parse("2024-01-01T00:00:00Z");
         final GameType gameType = GameType.SLOT;
         final String details = "symbols=[SEVEN,BAR,SEVEN],category=HIGH";
-        final int cost = 25;
-        final int payout = 50;
-        final int balanceBefore = 100;
-        final int balanceAfter = 125;
+        final Amount cost = new Amount(25);
+        final Amount payout = new Amount(50);
+        final Amount balanceBefore = new Amount(100);
+        final Amount balanceAfter = new Amount(125);
 
         // when
         GameHistoryEntry gameHistoryEntry = new GameHistoryEntry(

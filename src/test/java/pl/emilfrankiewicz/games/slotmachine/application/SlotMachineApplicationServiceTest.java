@@ -70,7 +70,7 @@ class SlotMachineApplicationServiceTest {
 
 
         assertThat(gameOutcome.win()).isTrue();
-        assertThat(gameOutcome.payout()).isEqualTo(500);
+        assertThat(gameOutcome.payout()).isEqualTo(new Amount(500));
         assertThat(gameOutcome.occurredAt()).isEqualTo(now);
         assertThat(gameOutcome.gameType()).isEqualTo(GameType.SLOT);
         assertThat(gameOutcome.details()).contains("SEVEN");
@@ -105,7 +105,7 @@ class SlotMachineApplicationServiceTest {
 
 
         assertThat(gameOutcome.win()).isFalse();
-        assertThat(gameOutcome.payout()).isEqualTo(0);
+        assertThat(gameOutcome.payout()).isEqualTo(new Amount(0));
         assertThat(gameOutcome.occurredAt()).isEqualTo(now);
         assertThat(gameOutcome.gameType()).isEqualTo(GameType.SLOT);
         assertThat(gameOutcome.details()).contains("CHERRY");

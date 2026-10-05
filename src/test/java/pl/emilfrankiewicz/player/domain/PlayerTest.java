@@ -1,6 +1,7 @@
 package pl.emilfrankiewicz.player.domain;
 
 import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.game.domain.Amount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -26,7 +27,7 @@ class PlayerTest {
         Player player = new Player(new PlayerId("1"), new Balance(0));
 
         // when
-        Player updated = player.win(10);
+        Player updated = player.win(new Amount(10));
 
         // then
         assertThat(updated).isNotSameAs(player);
@@ -40,7 +41,7 @@ class PlayerTest {
         Player player = new Player(new PlayerId("1"), new Balance(15));
 
         // when
-        Player updated = player.payForGame(5);
+        Player updated = player.payForGame(new Amount(5));
 
         // then
         assertThat(updated).isNotSameAs(player);
@@ -54,7 +55,7 @@ class PlayerTest {
         Player player = new Player(new PlayerId("1"), new Balance(5));
 
         // when
-        Throwable thrown = catchThrowable(() -> player.payForGame(10));
+        Throwable thrown = catchThrowable(() -> player.payForGame(new Amount(10)));
 
         // then
         assertThat(thrown)
@@ -70,7 +71,7 @@ class PlayerTest {
         Player player = new Player(new PlayerId("1"), new Balance(10));
 
         // when
-        Player updated = player.applyPayout(5);
+        Player updated = player.applyPayout(new Amount(5));
 
         // then
         assertThat(updated).isNotSameAs(player);
@@ -83,7 +84,7 @@ class PlayerTest {
         Player player = new Player(new PlayerId("1"), new Balance(10));
 
         // when
-        Player updated = player.applyPayout(0);
+        Player updated = player.applyPayout(new Amount(0));
 
         // then
         assertThat(updated).isSameAs(player);

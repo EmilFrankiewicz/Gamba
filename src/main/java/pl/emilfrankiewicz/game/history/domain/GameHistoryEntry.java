@@ -1,5 +1,6 @@
 package pl.emilfrankiewicz.game.history.domain;
 
+import pl.emilfrankiewicz.game.domain.Amount;
 import pl.emilfrankiewicz.game.domain.GameOutcome;
 import pl.emilfrankiewicz.game.domain.GameType;
 import pl.emilfrankiewicz.player.domain.PlayerId;
@@ -14,12 +15,12 @@ public class GameHistoryEntry {
     private final Instant occurredAt;
     private final GameType gameType;
     private final String details;
-    private final int cost;
-    private final int payout;
-    private final int balanceBefore;
-    private final int balanceAfter;
+    private final Amount cost;
+    private final Amount payout;
+    private final Amount balanceBefore;
+    private final Amount balanceAfter;
 
-    public GameHistoryEntry(GameHistoryId id, PlayerId playerId, Instant occurredAt, GameType gameType, String details, int cost, int payout, int balanceBefore, int balanceAfter) {
+    public GameHistoryEntry(GameHistoryId id, PlayerId playerId, Instant occurredAt, GameType gameType, String details, Amount cost, Amount payout, Amount balanceBefore, Amount balanceAfter) {
         this.id = id;
         this.playerId = playerId;
         this.occurredAt = occurredAt;
@@ -31,7 +32,7 @@ public class GameHistoryEntry {
         this.balanceAfter = balanceAfter;
     }
 
-    public GameHistoryEntry(PlayerId playerId, Instant occurredAt, GameType gameType, String details, int cost, int payout, int balanceBefore, int balanceAfter) {
+    public GameHistoryEntry(PlayerId playerId, Instant occurredAt, GameType gameType, String details, Amount cost, Amount payout, Amount balanceBefore, Amount balanceAfter) {
         this.id = null;
         this.playerId = playerId;
         this.occurredAt = occurredAt;
@@ -46,9 +47,9 @@ public class GameHistoryEntry {
     public static GameHistoryEntry of(
             PlayerId playerId,
             GameOutcome outcome,
-            int cost,
-            int balanceBefore,
-            int balanceAfter
+            Amount cost,
+            Amount balanceBefore,
+            Amount balanceAfter
     ) {
         return new GameHistoryEntry(
                 new GameHistoryId(UUID.randomUUID().toString()),
@@ -64,10 +65,6 @@ public class GameHistoryEntry {
     }
     public GameHistoryEntry withId(GameHistoryId id) {
         return new GameHistoryEntry(id, this.playerId, this.occurredAt, this.gameType, this.details, this.cost, this.payout, this.balanceBefore, this.balanceAfter);
-    }
-
-    public GameHistoryId id() {
-        return id;
     }
 
     public GameHistoryId getId() {
@@ -90,19 +87,19 @@ public class GameHistoryEntry {
         return details;
     }
 
-    public int getCost() {
+    public Amount getCost() {
         return cost;
     }
 
-    public int getPayout() {
+    public Amount getPayout() {
         return payout;
     }
 
-    public int getBalanceBefore() {
+    public Amount getBalanceBefore() {
         return balanceBefore;
     }
 
-    public int getBalanceAfter() {
+    public Amount getBalanceAfter() {
         return balanceAfter;
     }
 }

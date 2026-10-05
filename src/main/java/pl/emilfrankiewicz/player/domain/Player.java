@@ -1,5 +1,7 @@
 package pl.emilfrankiewicz.player.domain;
 
+import pl.emilfrankiewicz.game.domain.Amount;
+
 public class Player {
 
     private final PlayerId id;
@@ -18,16 +20,16 @@ public class Player {
         return id;
     }
 
-    public Player payForGame(int amount) {
-        return decrease(amount);
+    public Player payForGame(Amount amount) {
+        return decrease(amount.getAmount());
     }
 
-    public Player win(int amount) {
-        return increase(amount);
+    public Player win(Amount amount) {
+        return increase(amount.getAmount());
     }
 
-    public Player applyPayout(int finalPayout) {
-        return finalPayout > 0
+    public Player applyPayout(Amount finalPayout) {
+        return finalPayout.getAmount() > 0
                 ? win(finalPayout)
                 : this;
     }
