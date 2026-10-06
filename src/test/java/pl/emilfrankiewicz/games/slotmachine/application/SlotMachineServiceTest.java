@@ -2,7 +2,7 @@ package pl.emilfrankiewicz.games.slotmachine.application;
 
 import org.junit.jupiter.api.Test;
 import pl.emilfrankiewicz.games.slotmachine.domain.*;
-import pl.emilfrankiewicz.games.slotmachine.infrastructure.SymbolGenerator;
+import pl.emilfrankiewicz.games.slotmachine.domain.SymbolGenerator;
 
 import java.util.List;
 

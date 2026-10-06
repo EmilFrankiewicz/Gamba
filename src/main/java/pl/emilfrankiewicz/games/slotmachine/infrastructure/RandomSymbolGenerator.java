@@ -1,6 +1,7 @@
 package pl.emilfrankiewicz.games.slotmachine.infrastructure;
 
 import pl.emilfrankiewicz.games.slotmachine.domain.Symbol;
+import pl.emilfrankiewicz.games.slotmachine.domain.SymbolGenerator;
 
 import java.util.List;
 import java.util.SplittableRandom;

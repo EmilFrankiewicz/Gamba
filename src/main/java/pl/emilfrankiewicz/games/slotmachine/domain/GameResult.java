@@ -1,7 +1,5 @@
 package pl.emilfrankiewicz.games.slotmachine.domain;
 
-import pl.emilfrankiewicz.game.domain.BasePayout;
-
 import java.time.Instant;
 import java.util.List;
 

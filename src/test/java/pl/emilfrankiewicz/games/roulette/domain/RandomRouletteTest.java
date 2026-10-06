@@ -3,6 +3,7 @@ package pl.emilfrankiewicz.games.roulette.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import pl.emilfrankiewicz.games.roulette.infrastructure.RandomRoulette;
 
 class RandomRouletteTest {
 

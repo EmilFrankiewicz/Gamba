@@ -1,4 +1,7 @@
-package pl.emilfrankiewicz.games.roulette.domain;
+package pl.emilfrankiewicz.games.roulette.infrastructure;
+
+import pl.emilfrankiewicz.games.roulette.domain.Roulette;
+import pl.emilfrankiewicz.games.roulette.domain.RouletteResult;
 
 import java.util.SplittableRandom;
 

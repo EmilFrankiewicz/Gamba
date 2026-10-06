@@ -1,7 +1,7 @@
 package pl.emilfrankiewicz.games.slotmachine.application;
 
 import pl.emilfrankiewicz.games.slotmachine.domain.Symbol;
-import pl.emilfrankiewicz.games.slotmachine.infrastructure.SymbolGenerator;
+import pl.emilfrankiewicz.games.slotmachine.domain.SymbolGenerator;
 
 import java.util.List;
 
