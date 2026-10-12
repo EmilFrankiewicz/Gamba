@@ -20,4 +20,32 @@ class CrazyNumbersTest {
         //then
         assertThat(sum).isEqualTo(51);
     }
+
+    @Test
+    void shouldReturnTrueWhenWin() {
+        //given
+        CrazyNumbers crazyNumbers = new CrazyNumbers();
+        int sum = 51;
+        int threshold = 50;
+
+        //when
+        boolean result = crazyNumbers.checkIfWin(sum, threshold);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void shouldReturnFalseWhenLoss() {
+        //given
+        CrazyNumbers crazyNumbers = new CrazyNumbers();
+        int sum = 50;
+        int threshold = 50;
+
+        //when
+        boolean result = crazyNumbers.checkIfWin(sum, threshold);
+
+        //then
+        assertThat(result).isFalse();
+    }
 }

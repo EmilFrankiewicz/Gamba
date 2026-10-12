@@ -8,5 +8,7 @@ public class CrazyNumbers {
         return listOfNumbers.stream().mapToInt(number -> number).sum();
     }
 
-
+    public boolean checkIfWin(int sum, int threshold) {
+        return sum > threshold;
+    }
 }
