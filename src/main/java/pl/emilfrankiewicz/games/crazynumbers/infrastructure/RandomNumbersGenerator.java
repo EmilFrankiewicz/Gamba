@@ -1,11 +1,14 @@
 package pl.emilfrankiewicz.games.crazynumbers.infrastructure;
 
+import pl.emilfrankiewicz.games.crazynumbers.domain.NumberGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;
 
-public class RandomNumbersGenerator {
+public class RandomNumbersGenerator implements NumberGenerator {
 
+    @Override
     public List<Integer> generate() {
         SplittableRandom splittableRandom = new SplittableRandom();
         List<Integer> list = new ArrayList<>();
